@@ -21,7 +21,7 @@ $evenements = array(
     <link rel="stylesheet" href="admin.css" type="text/css"/>
 </head>
 <body>
-    <h1>Administration des événements</h1>
+    <h1>Administration des événements</h1></br></br>
 
     <h2>Liste des événements</h2>
     <table>
@@ -44,7 +44,7 @@ $evenements = array(
         <?php endforeach; ?>
     </table>
     <div class="newEvent">
-      <h2>Ajouter un nouvel événement</h2>
+      <h2>Ajouter un événement</h2>
       <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
           <label for="nom">Nom </label>
           <input type="text" id="nom" name="nom" required>
