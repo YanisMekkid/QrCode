@@ -1,0 +1,12 @@
+1. Création du forms -> X
+2. Gestion de le gen de QRcode -> X
+3. Envoie des donnée sur la BDD -> X
+4. Génére l'affichage du QRcode -> X
+5. Gestion des différents event -> X
+6. Gestion de la validité du QRCode
+7. Création de l'acces admin :
+    - crée l'interface
+    - ajout d'un bouton connexion
+    - gestion de l'ajout des evenement
+    - création d'un bouton de génération de bdd a la création d'un evenement
+    
