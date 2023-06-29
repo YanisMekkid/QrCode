@@ -52,7 +52,7 @@ if (isset($_POST['evenement'])) {
 </head>
 <body>
 
-<!--<a class="admin-button" href="admin-login.php">Connexion administrateur</a> -->
+<a class="admin-button" href="admin-login.php">Connexion administrateur</a>
 
 <h1>Sélectionnez un événement </h1>
 <div class="event-list">

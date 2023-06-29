@@ -13,14 +13,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Traitement des modifications
     // ...
 }
+// Connexion à la base de données (à adapter avec vos propres informations de connexion)
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "test";
+$dbname = "qrcode";
 
-// Récupération des événements existants (à remplacer par votre logique de récupération)
-$evenements = array(
-    array("id" => 1, "nom" => "Événement 1", "description" => "Description de l'événement 1" , "date" => "29/06/2023"),
-    array("id" => 2, "nom" => "Événement 2", "description" => "Description de l'événement 2" , "date" => "29/06/2023"),
-    // ...
-);
+$conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
+// Vérification des erreurs de connexion à la base de données
+if ($conn->connect_error) {
+    die("Échec de la connexion à la base de données: " . $conn->connect_error);
+}
+
+// Récupération des événements depuis la base de données
+$sql = "SELECT * FROM qr_event";
+$result = $conn->query($sql);
+
+$evenements = array();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $id = $row["id"];
+        $nom = $row["eventName"];
+        $description = $row["eventDesc"];
+        $date = $row["eventDate"];
+        $place = $row["eventPlace"];
+
+        $evenements[$id] = array(
+            "nom" => $nom,
+            "description" => $description,
+            "date" => $date,
+            "place" => $place
+        );
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +61,6 @@ $evenements = array(
     <h2>Liste des événements</h2>
     <table>
         <tr>
-            <th>ID</th>
             <th>Nom</th>
             <th>Description</th>
             <th>Date</th>
@@ -43,7 +68,6 @@ $evenements = array(
         </tr>
         <?php foreach ($evenements as $evenement) : ?>
             <tr>
-                <td><?php echo $evenement["id"]; ?></td>
                 <td><?php echo $evenement["nom"]; ?></td>
                 <td><?php echo $evenement["description"]; ?></td>
                 <td><?php echo $evenement["date"]; ?></td>
