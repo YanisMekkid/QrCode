@@ -1,5 +1,4 @@
 <?php
-
 // Vérifiez si l'utilisateur est connecté
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -10,10 +9,39 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 // Traitement des modifications d'événements
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Traitement des modifications
-    // ...
+    // Récupérer les valeurs saisies par l'utilisateur
+    $nom = $_POST["nom"];
+    $description = $_POST["description"];
+    $date = date("Y-m-d", strtotime($_POST["date"]));
+    $place = $_POST["place"];
+
+    // Connexion à la base de données
+    $servername = "localhost";
+    $dbusername = "root";
+    $dbpassword = "test";
+    $dbname = "qrcode";
+
+    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+
+    // Vérification des erreurs de connexion à la base de données
+    if ($conn->connect_error) {
+        die("Échec de la connexion à la base de données: " . $conn->connect_error);
+    }
+
+    // Requête d'insertion SQL pour ajouter l'événement à la base de données
+    $sql = "INSERT INTO qr_event (eventName, eventDesc, eventDate, eventPlace) VALUES ('$nom', '$description', '$date', '$place')";
+    if ($conn->query($sql) === TRUE) {
+        // L'événement a été ajouté avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
+        header("Location: admin-page.php");
+        exit;
+    } else {
+        echo "Erreur lors de l'ajout de l'événement: " . $conn->error;
+    }
+
+    $conn->close();
 }
-// Connexion à la base de données (à adapter avec vos propres informations de connexion)
+
+// Récupération des événements depuis la base de données
 $servername = "localhost";
 $dbusername = "root";
 $dbpassword = "test";
@@ -26,7 +54,6 @@ if ($conn->connect_error) {
     die("Échec de la connexion à la base de données: " . $conn->connect_error);
 }
 
-// Récupération des événements depuis la base de données
 $sql = "SELECT * FROM qr_event";
 $result = $conn->query($sql);
 
@@ -47,6 +74,9 @@ if ($result->num_rows > 0) {
         );
     }
 }
+
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +119,9 @@ if ($result->num_rows > 0) {
 
           <label for="date">Date </label>
           <input type="date" id="date" name="date" required></br></br></br>
+
+          <label for="place">Nombre de Place </label>
+          <input type="text" id="place" name="place" required>
 
           <input type="submit" value="Ajouter">
         </form>
