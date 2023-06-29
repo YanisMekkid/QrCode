@@ -1,5 +1,6 @@
 *{
   font-family: 'Helvetica';
+  text-align: center;
 }
 
 body {
@@ -54,7 +55,7 @@ table {
 table th,
 table td {
   padding: 10px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ccc;
 }
 
@@ -95,6 +96,16 @@ textarea {
   margin-bottom: 20px;
 }
 
+input[type="date"]{
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+
 input[type="submit"] {
   background-color: #3498db;
   color: #fff;
@@ -104,7 +115,6 @@ input[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  transform: translate(125%, 10%);
 
 }
 
@@ -121,16 +131,33 @@ input[type="submit"]:active {
 }
 
 .newEvent {
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(165%, 10%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
   background-color: #f1f1f1;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   max-width: 400px;
+}
+
+.button {
+    top: 10px;
+    left: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #2980b9;
 }

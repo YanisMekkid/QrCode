@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Récupération des événements existants (à remplacer par votre logique de récupération)
 $evenements = array(
-    array("id" => 1, "nom" => "Événement 1", "description" => "Description de l'événement 1"),
-    array("id" => 2, "nom" => "Événement 2", "description" => "Description de l'événement 2"),
+    array("id" => 1, "nom" => "Événement 1", "description" => "Description de l'événement 1" , "date" => "29/06/2023"),
+    array("id" => 2, "nom" => "Événement 2", "description" => "Description de l'événement 2" , "date" => "29/06/2023"),
     // ...
 );
 
@@ -38,6 +38,7 @@ $evenements = array(
             <th>ID</th>
             <th>Nom</th>
             <th>Description</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
         <?php foreach ($evenements as $evenement) : ?>
@@ -45,9 +46,10 @@ $evenements = array(
                 <td><?php echo $evenement["id"]; ?></td>
                 <td><?php echo $evenement["nom"]; ?></td>
                 <td><?php echo $evenement["description"]; ?></td>
+                <td><?php echo $evenement["date"]; ?></td>
                 <td>
-                    <a href="modifier_evenement.php?id=<?php echo $evenement["id"]; ?>">Modifier</a> |
-                    <a href="supprimer_evenement.php?id=<?php echo $evenement["id"]; ?>">Supprimer</a>
+                    <a class="button" href="modifier_evenement.php?id=<?php echo $evenement["id"]; ?>">Modifier</a> |
+                    <a class="button" href="supprimer_evenement.php?id=<?php echo $evenement["id"]; ?>">Supprimer</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -61,8 +63,12 @@ $evenements = array(
           <label for="description">Description </label>
           <textarea id="description" name="description" required></textarea>
 
+          <label for="date">Date </label>
+          <input type="date" id="date" name="date" required></br></br></br>
+
           <input type="submit" value="Ajouter">
         </form>
-      </div>
+      </div></br></br></br>
+
 </body>
 </html>
