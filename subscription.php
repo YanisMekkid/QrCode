@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Formulaire d'inscription et génération de QR code</title>
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <link rel="stylesheet" href="css\style.css" type="text/css"/>
 </head>
 <body>
    <?php if (!$qrCodeGenere): ?>

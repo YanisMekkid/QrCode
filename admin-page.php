@@ -83,7 +83,7 @@ $conn->close();
 <html>
 <head>
     <title>Administration des événements</title>
-    <link rel="stylesheet" href="admin.css" type="text/css"/>
+    <link rel="stylesheet" href="css\admin.css" type="text/css"/>
 </head>
 <body>
     <h1>Administration des événements</h1></br></br>

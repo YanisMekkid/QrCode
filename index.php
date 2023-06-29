@@ -48,7 +48,7 @@ if (isset($_POST['evenement'])) {
 <html>
 <head>
     <title>Acceuil</title>
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <link rel="stylesheet" href="css\style.css" type="text/css"/>
 </head>
 <body>
 
