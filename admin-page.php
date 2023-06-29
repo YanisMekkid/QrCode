@@ -96,15 +96,16 @@ $conn->close();
             <th>Date</th>
             <th>Actions</th>
         </tr>
-        <?php foreach ($evenements as $evenement) : ?>
+        <?php foreach ($evenements as $id => $evenement) : ?>
             <tr>
                 <td><?php echo $evenement["nom"]; ?></td>
                 <td><?php echo $evenement["description"]; ?></td>
                 <td><?php echo $evenement["date"]; ?></td>
                 <td>
-                    <a class="button" href="modifier_evenement.php?id=<?php echo $evenement["id"]; ?>">Modifier</a> |
-                    <a class="button" href="supprimer_evenement.php?id=<?php echo $evenement["id"]; ?>">Supprimer</a>
+                    <a class="button" href="modif_event.php?id=<?php echo $id; ?>">Modifier</a> |
+                    <a class="button" href="supprimer_evenement.php?id=<?php echo $id; ?>">Supprimer</a>
                 </td>
+
             </tr>
         <?php endforeach; ?>
     </table>
