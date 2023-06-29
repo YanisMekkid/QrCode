@@ -27,8 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashedPassword = $row["password"];
 
         // Vérification du mot de passe haché
-        if (md5($password, $hashedPassword)) {
+        if (md5($password,$hashedPassword)) {
             // Authentification réussie, redirigez vers la page d'administration
+            session_start();
+            $_SESSION["loggedin"] = true;
             header("Location: admin-page.php");
             exit();
         }
@@ -49,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body>
-  <div class = "form-container">
+  <div class="form-container">
     <h1>Connexion Administrateur</h1>
 
     <?php if (isset($error_message)) : ?>
@@ -57,15 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
 
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" id="username" name="username" required><br><br>
 
-            <label for="username">Nom d'utilisateur </label>
-            <input type="text" id="username" name="username" required>
-
-
-
-            <label for="password">Mot de passe </label>
-            <input type="password" id="password" name="password" required>
-
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required><br><br>
 
         <input type="submit" value="Se connecter">
     </form>

@@ -9,4 +9,4 @@
     - ajout d'un bouton connexion
     - gestion de l'ajout des evenement
     - création d'un bouton de génération de bdd a la création d'un evenement
-    
+    - bloquer l'acces a la page admin-page.php si pas de connexion

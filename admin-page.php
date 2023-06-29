@@ -1,4 +1,13 @@
 <?php
+
+// Vérifiez si l'utilisateur est connecté
+session_start();
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    // L'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+    header("Location: admin-login.php");
+    exit;
+}
+
 // Traitement des modifications d'événements
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Traitement des modifications
