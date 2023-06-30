@@ -193,3 +193,21 @@ overflow: hidden;
 border: 2px solid #3498db;
 border-radius: 10px;
 }
+
+.admin-button2 {
+    top: 10px;
+    left: 160px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+}
+
+.admin-button:hover {
+    background-color: #2980b9;
+    text-decoration: none;
+}

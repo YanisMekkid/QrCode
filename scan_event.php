@@ -7,6 +7,7 @@
   <link href="css/admin.css" rel="stylesheet">
 </head>
 <body>
+  <a class="admin-button2" href="admin-page.php">Administration</a>
   <h1>Scanner et vérifier le QR code</h1>
   <div id="loadingMessage">🎥 Impossible d'accéder au flux vidéo (assurez-vous d'avoir une webcam activée)</div>
   <canvas id="canvas" hidden></canvas>

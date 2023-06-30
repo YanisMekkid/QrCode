@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
 </head>
 <body>
+  <a class="admin-button2" href="index.php">Acceuil</a>
     <?php if (!$qrCodeGenere): ?>
     <div class="form-container">
       <h1>Inscription à l'événement</h1>
