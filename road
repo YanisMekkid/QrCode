@@ -14,11 +14,11 @@
     - Ajout bouton de deconnexion -> X
 
 7. Gestion de la validité du QRCode (js) :
-    -Création de l'interface
+    -Création de l'interface -> X
     -Selection de l'evenement sur lequel on veux scanner le code
-    -Scanning depuis l'appareil photo
-    -Verification de la validité du codeqr
-    -message de validation ou d'erreurs
-    -affichage des donnée du qr code
+    -Scanning depuis l'appareil photo -> X
+    -Verification de la validité du codeqr -> X
+    -message de validation ou d'erreurs -> X
+    -affichage des donnée du qr code -> X
 
 8. Fonctionnalité d'impression du pass ou de l'enregister en local

@@ -11,11 +11,12 @@
   <div id="loadingMessage">🎥 Impossible d'accéder au flux vidéo (assurez-vous d'avoir une webcam activée)</div>
   <canvas id="canvas" hidden></canvas>
   <div id="output" hidden>
-    <div id="outputMessage">Aucun QR code détecté.</div>
-    <div hidden><b>Information :</b></div>
-    <div ><b>Nom :</b> <span id="outputNom"></span></div>
-    <div ><b>Prénom :</b> <span id="outputPrenom"></span></div>
-    <div ><b>Adresse e-mail :</b> <span id="outputEmail"></span></div>
+    <div id="outputMessage"></div>
+    <div id="verificationMessage"></div>
+    <div hidden><b>Données :</b></div>
+    <div><b>Nom :</b> <span id="outputNom"></span></div>
+    <div><b>Prénom :</b> <span id="outputPrenom"></span></div>
+    <div><b>Adresse e-mail :</b> <span id="outputEmail"></span></div>
   </div>
   <script>
     var video = document.createElement("video");
@@ -24,6 +25,7 @@
     var loadingMessage = document.getElementById("loadingMessage");
     var outputContainer = document.getElementById("output");
     var outputMessage = document.getElementById("outputMessage");
+    var verificationMessage = document.getElementById("verificationMessage");
     var outputNom = document.getElementById("outputNom");
     var outputPrenom = document.getElementById("outputPrenom");
     var outputEmail = document.getElementById("outputEmail");
@@ -87,15 +89,22 @@
           // Vérifier la validité du QR code
           if (checkQRCodeValidity(parsedData)) {
             // Le QR code est valide, afficher les données
-            outputNom.innerText = parsedData["nom"];
-            outputPrenom.innerText = parsedData["prenom"];
-            outputEmail.innerText = parsedData["email"];
+            outputNom.innerText = parsedData.nom;
+            outputPrenom.innerText = parsedData.prenom;
+            outputEmail.innerText = parsedData.email;
+            verificationMessage.innerText = "VALIDER";
 
             // Réinitialiser le compteur de temps
             lastScanTime = Date.now();
           } else {
-            // Le QR code n'est pas valide, réinitialiser les données
-            resetData();
+            // Le QR code n'est pas valide, afficher les données même lorsque c'est refusé
+            outputNom.innerText = parsedData.nom;
+            outputPrenom.innerText = parsedData.prenom;
+            outputEmail.innerText = parsedData.email;
+            verificationMessage.innerText = "REFUSER";
+
+            // Réinitialiser le compteur de temps
+            lastScanTime = Date.now();
           }
         } else {
           // Vérifier si le délai d'attente est écoulé depuis le dernier scan
