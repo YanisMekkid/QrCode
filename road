@@ -24,8 +24,8 @@
 8. Fonctionnalité d'impression du pass ou de l'enregister en local -> X
 
 9. Bloquer le nombre d'inscription en fonction du nombre de place par event : -> X
-  - afficher le nombre de place restante -> X
+  - afficher le nombre de place restante -> X (le nombre de place s'ffiche en retirant -1 meme si y a pas d'inscription)
 
-10. Gestion des caractère speciaux envoyer sur la bdd
+10. Gestion des caractère speciaux envoyer sur la bdd -> X
 
 11. Ajout d'un tableau affichant les donnes des personnes inscrite a un evenement sur la page admin

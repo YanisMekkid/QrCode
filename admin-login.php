@@ -51,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css\style.css" type="text/css"/>
 </head>
 <body>
+  <a class="admin-button2" href="index.php">Acceuil</a>
   <div class="form-container">
     <h1>Connexion Administrateur</h1>
 
