@@ -104,6 +104,8 @@ $conn->close();
                 <td>
                     <a class="button" href="modif_event.php?id=<?php echo $id; ?>">Modifier</a> |
                     <a class="button" href="suppr_event.php?id=<?php echo $id; ?>">Supprimer</a>
+                    |
+                    <a class="button" href="scan_event.php?id=<?php echo $id; ?>">Scanner</a>
                 </td>
 
             </tr>

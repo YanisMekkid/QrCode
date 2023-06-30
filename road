@@ -3,8 +3,7 @@
 3. Envoie des donnée sur la BDD -> X
 4. Génére l'affichage du QRcode -> X
 5. Gestion des différents event -> X
-6. Gestion de la validité du QRCode (js pr php)
-7. Création de l'acces admin :
+6. Création de l'acces admin : -> X
     - crée l'interface  -> X (potentielle amlioration)
     - ajout d'un bouton connexion  -> X
     - gestion de l'ajout des evenement - X
@@ -12,4 +11,12 @@
     - bloquer l'acces a la page admin-page.php si pas de connexion -> X
     - Code pour la modifications d'event -> X
     - Code pour la suppresion d'event -> X
-    - Ajout bouton de deconnexion
+    - Ajout bouton de deconnexion -> X
+
+7. Gestion de la validité du QRCode (js) :
+    -Création de l'interface
+    -Selection de l'evenement sur lequel on veux scanner le code
+    -Scanning depuis l'appareil photo
+    -Verification de la validité du codeqr
+    -message de validation ou d'erreurs
+    -affichage des donnée du qr code
