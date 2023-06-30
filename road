@@ -20,3 +20,5 @@
     -Verification de la validité du codeqr
     -message de validation ou d'erreurs
     -affichage des donnée du qr code
+
+8. Fonctionnalité d'impression du pass ou de l'enregister en local

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Scanner et vérifier le QR code</title>
-  <script src="jsQR\docs\jsQR.js"></script>
-  <link href="css\admin.css" rel="stylesheet">
+  <script src="jsQR/docs/jsQR.js"></script>
+  <link href="css/admin.css" rel="stylesheet">
 </head>
 <body>
   <h1>Scanner et vérifier le QR code</h1>
@@ -12,10 +12,10 @@
   <canvas id="canvas" hidden></canvas>
   <div id="output" hidden>
     <div id="outputMessage">Aucun QR code détecté.</div>
-    <div hidden><b>Données :</b></div>
-    <div hidden><b>Nom :</b> <span id="outputNom"></span></div>
-    <div hidden><b>Prénom :</b> <span id="outputPrenom"></span></div>
-    <div hidden><b>Adresse e-mail :</b> <span id="outputEmail"></span></div>
+    <div hidden><b>Information :</b></div>
+    <div ><b>Nom :</b> <span id="outputNom"></span></div>
+    <div ><b>Prénom :</b> <span id="outputPrenom"></span></div>
+    <div ><b>Adresse e-mail :</b> <span id="outputEmail"></span></div>
   </div>
   <script>
     var video = document.createElement("video");
@@ -27,8 +27,8 @@
     var outputNom = document.getElementById("outputNom");
     var outputPrenom = document.getElementById("outputPrenom");
     var outputEmail = document.getElementById("outputEmail");
-    var urlParams = new URLSearchParams(window.location.search);
-    var idParam = urlParams.get('id');
+    var lastScanTime = Date.now();
+    var resetTimeout = 5000; // Durée d'attente avant de réinitialiser les données (en millisecondes)
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -39,19 +39,11 @@
       canvas.stroke();
     }
 
-    // Utilisez facingMode: "environment" pour essayer d'obtenir la caméra frontale sur les téléphones
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
-      video.srcObject = stream;
-      video.setAttribute("playsinline", true); // nécessaire pour indiquer à Safari iOS que nous ne voulons pas le mode plein écran
-      video.play();
-      requestAnimationFrame(tick);
-    });
-
     function checkQRCodeValidity(data) {
-      // Extrayez l'ID d'événement du QR code
-      var qrCodeEventId = data.eventId;
+      // Extraire l'ID d'événement du QR code
+      var qrCodeEventId = data.idEvenement;
 
-      // Comparez l'ID passé dans l'URL avec l'ID du QR code
+      // Comparer l'ID passé dans l'URL avec l'ID du QR code
       if (qrCodeEventId === idParam) {
         return true;
       } else {
@@ -59,12 +51,19 @@
       }
     }
 
+    function resetData() {
+      outputNom.innerText = "";
+      outputPrenom.innerText = "";
+      outputEmail.innerText = "";
+      outputContainer.hidden = true;
+    }
+
     function tick() {
       loadingMessage.innerText = "⌛ Chargement de la vidéo..."
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         loadingMessage.hidden = true;
         canvasElement.hidden = false;
-        outputContainer.hidden = false;
+        outputMessage.hidden = false;
 
         canvasElement.height = video.videoHeight;
         canvasElement.width = video.videoWidth;
@@ -79,26 +78,44 @@
           drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
           drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
           outputMessage.hidden = true;
-          outputNom.parentElement.hidden = false;
-          outputPrenom.parentElement.hidden = false;
-          outputEmail.parentElement.hidden = false;
-          outputNom.innerText = code.data.nom;
-          outputPrenom.innerText = code.data.prenom;
-          outputEmail.innerText = code.data.email;
-          if (checkQRCodeValidity(code.data)) {
-            // Le QR code est valide, faites ce que vous voulez ici
+          outputContainer.hidden = false;
+
+          // Décoder l'URL et analyser la chaîne JSON
+          var decodedData = decodeURIComponent(code.data);
+          var parsedData = JSON.parse(decodedData);
+
+          // Vérifier la validité du QR code
+          if (checkQRCodeValidity(parsedData)) {
+            // Le QR code est valide, afficher les données
+            outputNom.innerText = parsedData["nom"];
+            outputPrenom.innerText = parsedData["prenom"];
+            outputEmail.innerText = parsedData["email"];
+
+            // Réinitialiser le compteur de temps
+            lastScanTime = Date.now();
           } else {
-            // Le QR code n'est pas valide
+            // Le QR code n'est pas valide, réinitialiser les données
+            resetData();
           }
         } else {
-          outputMessage.hidden = false;
-          outputNom.parentElement.hidden = true;
-          outputPrenom.parentElement.hidden = true;
-          outputEmail.parentElement.hidden = true;
+          // Vérifier si le délai d'attente est écoulé depuis le dernier scan
+          var currentTime = Date.now();
+          if (currentTime - lastScanTime >= resetTimeout) {
+            // Aucun QR code détecté pendant le délai d'attente, réinitialiser les données
+            resetData();
+          }
         }
       }
       requestAnimationFrame(tick);
     }
+
+    var idParam = "1"; // Remplacez cela par l'ID passé dans l'URL
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true); // nécessaire pour indiquer à Safari iOS que nous ne voulons pas le mode plein écran
+      video.play();
+      requestAnimationFrame(tick);
+    });
   </script>
 </body>
 </html>
