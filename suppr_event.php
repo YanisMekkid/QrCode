@@ -49,20 +49,14 @@ $place = $event["eventPlace"];
 
 // Traitement des modifications d'événements
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les valeurs saisies par l'utilisateur
-    $newNom = $_POST["nom"];
-    $newDescription = $_POST["description"];
-    $newDate = date("Y-m-d", strtotime($_POST["date"]));
-    $newPlace = $_POST["place"];
-
-    // Requête de mise à jour SQL pour modifier l'événement dans la base de données
-    $sql = "UPDATE qr_event SET eventName = '$newNom', eventDesc = '$newDescription', eventDate = '$newDate', eventPlace = '$newPlace' WHERE id = '$eventId'";
+    // Supprimer l'événement de la base de données
+    $sql = "DELETE FROM qr_event WHERE id = '$eventId'";
     if ($conn->query($sql) === TRUE) {
-        // L'événement a été modifié avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
+        // L'événement a été supprimé avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
         header("Location: admin-page.php");
         exit;
     } else {
-        echo "Erreur lors de la modification de l'événement: " . $conn->error;
+        echo "Erreur lors de la suppression de l'événement: " . $conn->error;
     }
 }
 
@@ -72,27 +66,29 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Modification d'Evenement</title>
+    <title>Supprimer un événement</title>
     <link rel="stylesheet" href="css\admin.css" type="text/css"/>
+    <script>
+        function showConfirmation() {
+            alert("Suppression réussie");
+        }
+    </script>
 </head>
 <body>
-    <div class="newEvent">
-        <h2>Modification d'Evenement</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?id=' . $eventId); ?>">
-            <label for="nom">Nom de l'Evenement</label>
-            <input type="text" id="nom" name="nom" value="<?php echo $nom; ?>" required>
 
-            <label for="description">Description </label>
-            <textarea id="description" name="description" required><?php echo $description; ?></textarea>
+    <h1>Supprimer un événement</h1>
+  <div class="newEvent">
+    <h2>Informations de l'événement</h2>
+    <p>Nom: <?php echo $nom; ?></p>
+    <p>Description: <?php echo $description; ?></p>
+    <p>Date: <?php echo $date; ?></p>
+    <p>Place: <?php echo $place; ?></p>
 
-            <label for="date">Date </label>
-            <input type="date" id="date" name="date" value="<?php echo $date; ?>" required></br></br></br>
-
-            <label for="place">Nombre de Place </label>
-            <input type="text" id="place" name="place" value="<?php echo $place; ?>" required>
-
-            <input type="submit" value="Modifier">
-        </form>
-    </div>
+    <h2>Confirmation de suppression</h2>
+    <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $eventId); ?>">
+        <input type="submit" value="Supprimer" onclick="showConfirmation()">
+    </form>
+  </div>
 </body>
 </html>

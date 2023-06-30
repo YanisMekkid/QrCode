@@ -103,7 +103,7 @@ $conn->close();
                 <td><?php echo $evenement["date"]; ?></td>
                 <td>
                     <a class="button" href="modif_event.php?id=<?php echo $id; ?>">Modifier</a> |
-                    <a class="button" href="supprimer_evenement.php?id=<?php echo $id; ?>">Supprimer</a>
+                    <a class="button" href="suppr_event.php?id=<?php echo $id; ?>">Supprimer</a>
                 </td>
 
             </tr>
