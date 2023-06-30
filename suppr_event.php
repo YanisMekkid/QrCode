@@ -7,7 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-// Vérifiez si l'ID de l'événement à modifier est passé dans l'URL
+// Vérifiez si l'ID de l'événement à supprimer est passé dans l'URL
 if (!isset($_GET["id"])) {
     // Redirigez l'utilisateur vers la page appropriée ou affichez un message d'erreur
     header("Location: admin-page.php");
@@ -47,17 +47,19 @@ $description = $event["eventDesc"];
 $date = $event["eventDate"];
 $place = $event["eventPlace"];
 
-// Traitement des modifications d'événements
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Supprimer l'événement de la base de données
-    $sql = "DELETE FROM qr_event WHERE id = '$eventId'";
-    if ($conn->query($sql) === TRUE) {
-        // L'événement a été supprimé avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
-        header("Location: admin-page.php");
-        exit;
-    } else {
-        echo "Erreur lors de la suppression de l'événement: " . $conn->error;
-    }
+// Copier les données de l'événement dans la nouvelle table
+$newTableName = "qr_event_archive"; // Nom de la nouvelle table
+$sqlCopy = "INSERT INTO $newTableName (eventName, eventDesc, eventDate, eventPlace, id) VALUES ('$nom', '$description', '$date', '$place','$eventId')";
+if ($conn->query($sqlCopy) !== TRUE) {
+    echo "Erreur lors de la copie des données de l'événement: " . $conn->error;
+}
+
+// Supprimer l'événement de la table principale
+$sqlDelete = "DELETE FROM qr_event WHERE id = '$eventId'";
+if ($conn->query($sqlDelete) === TRUE) {
+    // L'événement a été supprimé avec succès
+} else {
+    echo "Erreur lors de la suppression de l'événement: " . $conn->error;
 }
 
 $conn->close();
@@ -77,18 +79,18 @@ $conn->close();
 <body>
 
     <h1>Supprimer un événement</h1>
-  <div class="newEvent">
-    <h2>Informations de l'événement</h2>
-    <p>Nom: <?php echo $nom; ?></p>
-    <p>Description: <?php echo $description; ?></p>
-    <p>Date: <?php echo $date; ?></p>
-    <p>Place: <?php echo $place; ?></p>
+    <div class="newEvent">
+        <h2>Informations de l'événement</h2>
+        <p>Nom: <?php echo $nom; ?></p>
+        <p>Description: <?php echo $description; ?></p>
+        <p>Date: <?php echo $date; ?></p>
+        <p>Place: <?php echo $place; ?></p>
 
-    <h2>Confirmation de suppression</h2>
-    <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $eventId); ?>">
-        <input type="submit" value="Supprimer" onclick="showConfirmation()">
-    </form>
-  </div>
+        <h2>Confirmation de suppression</h2>
+        <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id=" . $eventId); ?>">
+            <input type="submit" value="Supprimer" onclick="showConfirmation()">
+        </form>
+    </div>
 </body>
 </html>
