@@ -30,9 +30,12 @@ if ($conn->connect_error) {
     die("Échec de la connexion à la base de données: " . $conn->connect_error);
 }
 
-// Vérification si l'événement existe dans la base de données
-$sql = "SELECT * FROM qr_event WHERE id = '$eventId'";
-$result = $conn->query($sql);
+// Vérification si l'événement existe dans la base de données en utilisant une déclaration préparée
+$sql = "SELECT * FROM qr_event WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $eventId);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows == 0) {
     // L'événement n'existe pas dans la base de données, redirigez l'utilisateur ou affichez un message d'erreur
@@ -55,15 +58,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newDate = date("Y-m-d", strtotime($_POST["date"]));
     $newPlace = $_POST["place"];
 
-    // Requête de mise à jour SQL pour modifier l'événement dans la base de données
-    $sql = "UPDATE qr_event SET eventName = '$newNom', eventDesc = '$newDescription', eventDate = '$newDate', eventPlace = '$newPlace' WHERE id = '$eventId'";
-    if ($conn->query($sql) === TRUE) {
+    // Requête de mise à jour SQL avec une déclaration préparée pour modifier l'événement dans la base de données
+    $sql = "UPDATE qr_event SET eventName = ?, eventDesc = ?, eventDate = ?, eventPlace = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssi", $newNom, $newDescription, $newDate, $newPlace, $eventId);
+
+    if ($stmt->execute()) {
         // L'événement a été modifié avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
         header("Location: admin-page.php");
         exit;
     } else {
-        echo "Erreur lors de la modification de l'événement: " . $conn->error;
+        echo "Erreur lors de la modification de l'événement: " . $stmt->error;
     }
+
+    $stmt->close();
 }
 
 $conn->close();
@@ -80,16 +88,16 @@ $conn->close();
         <h2>Modification d'Evenement</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?id=' . $eventId); ?>">
             <label for="nom">Nom de l'Evenement</label>
-            <input type="text" id="nom" name="nom" value="<?php echo $nom; ?>" required>
+            <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($nom); ?>" required>
 
             <label for="description">Description </label>
-            <textarea id="description" name="description" required><?php echo $description; ?></textarea>
+            <textarea id="description" name="description" required><?php echo htmlspecialchars($description); ?></textarea>
 
             <label for="date">Date </label>
-            <input type="date" id="date" name="date" value="<?php echo $date; ?>" required></br></br></br>
+            <input type="date" id="date" name="date" value="<?php echo htmlspecialchars($date); ?>" required></br></br></br>
 
             <label for="place">Nombre de Place </label>
-            <input type="text" id="place" name="place" value="<?php echo $place; ?>" required>
+            <input type="text" id="place" name="place" value="<?php echo htmlspecialchars($place); ?>" required>
 
             <input type="submit" value="Modifier">
         </form>

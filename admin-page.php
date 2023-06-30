@@ -28,16 +28,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Échec de la connexion à la base de données: " . $conn->connect_error);
     }
 
-    // Requête d'insertion SQL pour ajouter l'événement à la base de données
-    $sql = "INSERT INTO qr_event (eventName, eventDesc, eventDate, eventPlace) VALUES ('$nom', '$description', '$date', '$place')";
-    if ($conn->query($sql) === TRUE) {
+    // Requête d'insertion SQL avec une déclaration préparée pour ajouter l'événement à la base de données
+    $sql = "INSERT INTO qr_event (eventName, eventDesc, eventDate, eventPlace) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $nom, $description, $date, $place);
+
+    if ($stmt->execute()) {
         // L'événement a été ajouté avec succès, vous pouvez rediriger l'utilisateur ou effectuer d'autres actions nécessaires
         header("Location: admin-page.php");
         exit;
     } else {
-        echo "Erreur lors de l'ajout de l'événement: " . $conn->error;
+        echo "Erreur lors de l'ajout de l'événement: " . $stmt->error;
     }
 
+    $stmt->close();
     $conn->close();
 }
 
@@ -98,9 +102,9 @@ $conn->close();
         </tr>
         <?php foreach ($evenements as $id => $evenement) : ?>
             <tr>
-                <td><?php echo $evenement["nom"]; ?></td>
-                <td><?php echo $evenement["description"]; ?></td>
-                <td><?php echo $evenement["date"]; ?></td>
+                <td><?php echo htmlspecialchars($evenement["nom"]); ?></td>
+                <td><?php echo htmlspecialchars($evenement["description"]); ?></td>
+                <td><?php echo htmlspecialchars($evenement["date"]); ?></td>
                 <td>
                     <a class="button" href="modif_event.php?id=<?php echo $id; ?>">Modifier</a> |
                     <a class="button" href="suppr_event.php?id=<?php echo $id; ?>">Supprimer</a>
