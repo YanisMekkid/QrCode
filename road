@@ -13,9 +13,9 @@
     - Code pour la suppresion d'event -> X
     - Ajout bouton de deconnexion -> X
 
-7. Gestion de la validité du QRCode (js) :
+7. Gestion de la validité du QRCode (js) : -> X
     -Création de l'interface -> X
-    -Selection de l'evenement sur lequel on veux scanner le code
+    -Selection de l'evenement sur lequel on veux scanner le code -> X
     -Scanning depuis l'appareil photo -> X
     -Verification de la validité du codeqr -> X
     -message de validation ou d'erreurs -> X

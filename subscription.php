@@ -3,11 +3,11 @@
 <html>
 <head>
     <title>Formulaire d'inscription et génération de QR code</title>
-    <link rel="stylesheet" href="css\style.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
 </head>
 <body>
-   <?php if (!$qrCodeGenere): ?>
-    <div class = "form-container">
+    <?php if (!$qrCodeGenere): ?>
+    <div class="form-container">
       <h1>Inscription à l'événement</h1>
       <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
           <label for="nom">Nom </label>
@@ -23,16 +23,20 @@
           <input type="text" name="idEvenement" value="<?php echo isset($_GET['idEvenement']) ? $_GET['idEvenement'] : ''; ?>" readonly><br><br>
 
           <input type="submit" value="Soumettre">
-        </form>
-      </div>
-  <?php else: ?>
+      </form>
+    </div>
+    <?php else: ?>
     <div class="qr-code-container">
       <h1 class="qr-code-title">Votre Pass</h1>
       <img class="qr-code-image" src="<?php echo $cheminFichierComplet; ?>" alt="QR code">
       <p class="qr-code-note">Veuillez présenter ce QR code à l'entrée de l'Evenement</p>
       <p class="qr-code-disclaimer">Ce pass est strictement personnel et non transférable.</p>
-    </div>
 
-  <?php endif; ?>
+      <div class="qr-code-buttons">
+        <a class="admin-button2" href="<?php echo $cheminFichierComplet; ?>" download>Télécharger</a>
+        <a class="admin-button2" href="#" onclick="window.print()">Imprimer</a>
+      </div>
+    </div>
+    <?php endif; ?>
 </body>
 </html>
