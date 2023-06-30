@@ -4,7 +4,7 @@
 4. Génére l'affichage du QRcode -> X
 5. Gestion des différents event -> X
 6. Création de l'acces admin : -> X
-    - crée l'interface  -> X (potentielle amlioration)
+    - crée l'interface  -> X
     - ajout d'un bouton connexion  -> X
     - gestion de l'ajout des evenement - X
     - création d'un bouton de génération de bdd a la création d'un evenement -> X
@@ -23,7 +23,9 @@
 
 8. Fonctionnalité d'impression du pass ou de l'enregister en local -> X
 
-9. Bloquer le nombre d'inscription en fonction du nombre de place par event :
-  - afficher le nombre de place restante
+9. Bloquer le nombre d'inscription en fonction du nombre de place par event : -> X
+  - afficher le nombre de place restante -> X
 
 10. Gestion des caractère speciaux envoyer sur la bdd
+
+11. Ajout d'un tableau affichant les donnes des personnes inscrite a un evenement sur la page admin
