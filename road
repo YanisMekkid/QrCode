@@ -22,3 +22,8 @@
     -affichage des donnée du qr code -> X
 
 8. Fonctionnalité d'impression du pass ou de l'enregister en local -> X
+
+9. Bloquer le nombre d'inscription en fonction du nombre de place par event :
+  - afficher le nombre de place restante
+
+10. Gestion des caractère speciaux envoyer sur la bdd
