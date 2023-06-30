@@ -161,3 +161,11 @@ input[type="submit"]:active {
 .button:hover {
     background-color: #2980b9;
 }
+
+.logout{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-700%, -470%);
+
+}

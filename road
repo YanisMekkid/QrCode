@@ -11,5 +11,5 @@
     - création d'un bouton de génération de bdd a la création d'un evenement -> X
     - bloquer l'acces a la page admin-page.php si pas de connexion -> X
     - Code pour la modifications d'event -> X
-    - Code pour la suppresion d'event
+    - Code pour la suppresion d'event -> X
     - Ajout bouton de deconnexion

@@ -128,5 +128,11 @@ $conn->close();
         </form>
       </div></br></br></br>
 
+      <div class="logout">
+        <form method="post" action="admin-logout.php">
+          <input type="submit" value="Déconnexion">
+        </form>
+      </div>
+
 </body>
 </html>
