@@ -29,3 +29,8 @@
 10. Gestion des caractère speciaux envoyer sur la bdd -> X
 
 11. Ajout d'un tableau affichant les donnes des personnes inscrite a un evenement sur la page admin
+
+
+12. Gérer la verification de la reutilisation du qrcode via Id Unique :
+  - Ajouter a la generation du Qrcode un id Unique -> X
+  - Verifier au scanning l'id pour voir si il a deja etais Scanner

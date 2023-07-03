@@ -42,13 +42,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $requete->execute();
     $requete->close();
 
+    $sql = "SELECT IdCode FROM qr_inscription_data WHERE Nom = ? AND Prenom = ? AND idEvenement = ? AND email = ?";
+    $requete = $connexion->prepare($sql);
+    $requete->bind_param("ssis", $nom, $prenom, $idEvenement, $email);
+    $requete->execute();
+    $resultat = $requete->get_result();
+    $IdCode = $resultat->fetch_assoc()["IdCode"];
+    $requete->close();
+
+
+
     // Générer le QR code
     require_once 'phpqrcode/qrlib.php';
     $passAcces = [
         'nom' => $nom,
         'prenom' => $prenom,
         'email' => $email,
-        'idEvenement' => $idEvenement
+        'idEvenement' => $idEvenement,
+        'IdCode' =>$IdCode
     ];
     $jsonPassAcces = json_encode($passAcces);
     $contenuQRCode = urlencode($jsonPassAcces);
@@ -58,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     QRcode::png($contenuQRCode, $cheminFichierComplet, QR_ECLEVEL_L, 10, 2);
 
     $qrCodeGenere = true;
+
     // Affichage du QR code
     //echo '<img src="' . $cheminFichierComplet . '" alt="QR code">';
 }
