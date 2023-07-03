@@ -33,4 +33,5 @@
 
 12. Gérer la verification de la reutilisation du qrcode via Id Unique :
   - Ajouter a la generation du Qrcode un id Unique -> X
-  - Verifier au scanning l'id pour voir si il a deja etais Scanner
+  - Verifier au scanning l'id pour voir si il a deja etais Scanner -> X
+  - Afficher le "Valider" or "Refuse" sur la popup
