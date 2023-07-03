@@ -36,6 +36,7 @@
     var resetTimeout = 5000; // Durée d'attente avant de réinitialiser les données (en millisecondes)
     var IdCodeArray = [];
     var scanPaused = false; // Variable pour vérifier si le scan est en pause
+    var IdCodeVerif = false;
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -64,7 +65,6 @@
       outputEmail.innerText = "";
       outputIdCode.innerText = "";
       verificationMessage.innerText ="";
-      outputContainer.hidden = true;
     }
 
     var popupWindow;
@@ -72,22 +72,6 @@
     function openPopupWindow(data, IdCodeVerif) {
       popupWindow = window.open("", "_blank", "width=400,height=300");
       if (IdCodeVerif === true){
-      popupWindow.document.write(`
-        <html>
-        <head>
-          <title>QR Code Scanné</title>
-        </head>
-        <body>
-          <h2>Données scannées :</h2>
-          <div><b>Nom :</b> ${data.nom}</div>
-          <div><b>Prénom :</b> ${data.prenom}</div>
-          <div><b>Adresse e-mail :</b> ${data.email}</div>
-          <div><b></b> QR CODE DÉJÀ VÉRIFIÉ</div>
-          <button onclick="window.close()">Fermer</button>
-        </body>
-        </html>
-      `);}
-      else {
         popupWindow.document.write(`
           <html>
           <head>
@@ -98,19 +82,32 @@
             <div><b>Nom :</b> ${data.nom}</div>
             <div><b>Prénom :</b> ${data.prenom}</div>
             <div><b>Adresse e-mail :</b> ${data.email}</div>
-            <div><b></b> </div>
+            <div><b>QR CODE DÉJÀ VÉRIFIÉ</b></div>
+            <button onclick="window.close()">Fermer</button>
+          </body>
+          </html>
+        `);
+      } else {
+        popupWindow.document.write(`
+          <html>
+          <head>
+            <title>QR Code Scanné</title>
+          </head>
+          <body>
+            <h2>Données scannées :</h2>
+            <div><b>Nom :</b> ${data.nom}</div>
+            <div><b>Prénom :</b> ${data.prenom}</div>
+            <div><b>Adresse e-mail :</b> ${data.email}</div>
             <button onclick="window.close()">Fermer</button>
           </body>
           </html>
         `);
       }
       popupWindow.addEventListener("beforeunload", function() {
-        video.play(); // Reprendre le scan après la fermeture de la popup
         scanPaused = false;
       });
       popupWindow.focus();
     }
-
 
     function tick() {
       loadingMessage.innerText = "⌛ Chargement de la vidéo..."
@@ -138,16 +135,14 @@
           var decodedData = decodeURIComponent(code.data);
           var parsedData = JSON.parse(decodedData);
 
-          var IdCodeVerif = false;
+
           var QrCodeValidity = false;
 
           if (IdCodeArray.includes(parsedData.IdCode)) {
             //outputIdCode.innerText = "QR CODE DÉJÀ VÉRIFIÉ";
             IdCodeVerif = true;
-
           } else {
             IdCodeArray.push(parsedData.IdCode);
-            IdCodeVerif = false;
           }
 
           // Vérifier la validité du QR code
@@ -184,6 +179,7 @@
             video.pause();
             scanPaused = true;
           }
+          video.play();
         } else {
           // Vérifier si le délai d'attente est écoulé depuis le dernier scan
           var currentTime = Date.now();
