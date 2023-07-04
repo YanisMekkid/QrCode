@@ -13,12 +13,11 @@
   <canvas id="canvas" hidden></canvas>
   <div id="output" hidden>
     <div id="outputMessage"></div>
-    <div id="verificationMessage"><b></b></div></br></br>
     <div hidden><b>Données :</b></div>
-    <div><b>Nom :</b> <span id="outputNom"></span></div></br>
-    <div><b>Prénom :</b> <span id="outputPrenom"></span></div></br>
-    <div><b>Adresse e-mail :</b> <span id="outputEmail"></span></div></br></br>
-    <div><b> <span id="outputIdCode"></span></b></div>
+    <div hidden><b>Nom :</b> <span id="outputNom"></span></div></br>
+    <div hidden><b>Prénom :</b> <span id="outputPrenom"></span></div></br>
+    <div hidden><b>Adresse e-mail :</b> <span id="outputEmail"></span></div></br></br>
+    <div hidden><b> <span id="outputIdCode"></span></b></div>
   </div>
   <script>
     var video = document.createElement("video");
@@ -37,6 +36,7 @@
     var IdCodeArray = [];
     var scanPaused = false; // Variable pour vérifier si le scan est en pause
     var IdCodeVerif = false;
+    var Status = "";
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -64,12 +64,11 @@
       outputPrenom.innerText = "";
       outputEmail.innerText = "";
       outputIdCode.innerText = "";
-      verificationMessage.innerText ="";
     }
 
     var popupWindow;
 
-    function openPopupWindow(data, IdCodeVerif) {
+    function openPopupWindow(data, IdCodeVerif,Status) {
       popupWindow = window.open("", "_blank", "width=400,height=300");
       if (IdCodeVerif === true){
         popupWindow.document.write(`
@@ -83,6 +82,7 @@
             <div><b>Prénom :</b> ${data.prenom}</div>
             <div><b>Adresse e-mail :</b> ${data.email}</div>
             <div><b>QR CODE DÉJÀ VÉRIFIÉ</b></div>
+            <div><b>${Status}</b></div></br></br>
             <button onclick="window.close()">Fermer</button>
           </body>
           </html>
@@ -98,6 +98,7 @@
             <div><b>Nom :</b> ${data.nom}</div>
             <div><b>Prénom :</b> ${data.prenom}</div>
             <div><b>Adresse e-mail :</b> ${data.email}</div>
+            <div id="verificationMessage"><b>${Status}</b></div></br></br>
             <button onclick="window.close()">Fermer</button>
           </body>
           </html>
@@ -151,13 +152,14 @@
             outputNom.innerText = parsedData.nom;
             outputPrenom.innerText = parsedData.prenom;
             outputEmail.innerText = parsedData.email;
-            verificationMessage.innerText = "VALIDÉ";
+
+            Status = "VALIDE"
 
             // Réinitialiser le compteur de temps
             lastScanTime = Date.now();
 
             // Ouvrir la popup avec les données scannées
-            openPopupWindow(parsedData, IdCodeVerif);
+            openPopupWindow(parsedData, IdCodeVerif,Status);
 
             // Mettre en pause le scan
             video.pause();
@@ -168,12 +170,13 @@
             outputNom.innerText = parsedData.nom;
             outputPrenom.innerText = parsedData.prenom;
             outputEmail.innerText = parsedData.email;
-            verificationMessage.innerText = "REFUSÉ";
+
+            Status = "INVALIDE"
 
             // Réinitialiser le compteur de temps
             lastScanTime = Date.now();
             // Ouvrir la popup avec les données scannées
-            openPopupWindow(parsedData, IdCodeVerif);
+            openPopupWindow(parsedData, IdCodeVerif,Status);
 
             // Mettre en pause le scan
             video.pause();
