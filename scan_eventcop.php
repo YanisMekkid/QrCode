@@ -59,33 +59,6 @@
       }
     }
 
-    function fetchData() {
-      // Créer une instance de l'objet XMLHttpRequest
-      var xhr = new XMLHttpRequest();
-
-      // Définir l'action à effectuer lors de l'événement 'load'
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var flashValue = xhr.responseText;
-          // Utiliser la valeur récupérée (flashValue) comme nécessaire
-          console.log(flashValue);
-        }
-  };
-
-  // Définir l'action à effectuer en cas d'erreur
-  xhr.onerror = function() {
-    // Gérer l'erreur
-  };
-
-  // Envoyer la requête GET au fichier PHP
-  xhr.open("GET", "verifier_qrcode.php", true);
-  xhr.send();
-}
-
-// Appeler la fonction pour récupérer les données
-fetchData();
-
-
     function resetData() {
       outputNom.innerText = "";
       outputPrenom.innerText = "";
@@ -103,7 +76,7 @@ fetchData();
       var features = `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=no`;
 
       popupWindow = window.open("", "_blank", features);
-
+      
       if (IdCodeVerif === true){
         popupWindow.document.write(`
           <html>
