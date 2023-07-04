@@ -69,20 +69,42 @@
     var popupWindow;
 
     function openPopupWindow(data, IdCodeVerif,Status) {
-      popupWindow = window.open("", "_blank", "width=400,height=300");
+      var popupWidth = 400;
+      var popupHeight = 400;
+      var left = window.screen.width / 2 - popupWidth / 2;
+      var top = window.screen.height / 2 - popupHeight / 2;
+      var features = `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=no`;
+
+      popupWindow = window.open("", "_blank", features);
+      
       if (IdCodeVerif === true){
         popupWindow.document.write(`
           <html>
           <head>
             <title>QR Code Scanné</title>
+            <link href="css/popup.css" rel="stylesheet">
+            <style>
+            span{
+              top: 10px;
+              left: 160px;
+              display: inline-block;
+              padding: 10px 20px;
+              color: #0FD673;
+              text-decoration: none;
+              border-radius: 3px;
+              border: none;
+              font-size: 16px;
+            }
+
+            </style>
           </head>
           <body>
             <h2>Données scannées :</h2>
             <div><b>Nom :</b> ${data.nom}</div>
             <div><b>Prénom :</b> ${data.prenom}</div>
-            <div><b>Adresse e-mail :</b> ${data.email}</div>
+            <div><b>Adresse e-mail :</b> ${data.email}</div></br>
             <div><b>QR CODE DÉJÀ VÉRIFIÉ</b></div>
-            <div><b>${Status}</b></div></br></br>
+            ${Status}
             <button onclick="window.close()">Fermer</button>
           </body>
           </html>
@@ -92,13 +114,14 @@
           <html>
           <head>
             <title>QR Code Scanné</title>
+            <link href="css/popup.css" rel="stylesheet">
           </head>
           <body>
             <h2>Données scannées :</h2>
             <div><b>Nom :</b> ${data.nom}</div>
             <div><b>Prénom :</b> ${data.prenom}</div>
             <div><b>Adresse e-mail :</b> ${data.email}</div>
-            <div id="verificationMessage"><b>${Status}</b></div></br></br>
+            ${Status}
             <button onclick="window.close()">Fermer</button>
           </body>
           </html>
@@ -153,7 +176,7 @@
             outputPrenom.innerText = parsedData.prenom;
             outputEmail.innerText = parsedData.email;
 
-            Status = "VALIDE"
+            Status = "<div class='valide'>VALIDE</div></br></br>"
 
             // Réinitialiser le compteur de temps
             lastScanTime = Date.now();
@@ -171,7 +194,7 @@
             outputPrenom.innerText = parsedData.prenom;
             outputEmail.innerText = parsedData.email;
 
-            Status = "INVALIDE"
+            Status = "<div class='invalide'>INVALIDE</div></br></br>"
 
             // Réinitialiser le compteur de temps
             lastScanTime = Date.now();
